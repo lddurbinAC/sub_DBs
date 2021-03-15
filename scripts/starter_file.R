@@ -37,7 +37,7 @@ source("scripts/GaleDBs.R")
 source("scripts/Lynda.R")
 
 #LinkedIn Learning
-#source("scripts/LinkedInLearning.R")
+source("scripts/LinkedInLearning.R")
 
 #Oxford University Press
 source("scripts/OUP.R")
@@ -76,7 +76,7 @@ database_IDs <- read_csv("data/SubDBs_IDs.csv", col_types = "ccc")
 databases_standardised <- read_csv("data/standardised_database_names.csv", col_types = "ccn") %>% select(-3)
 
 # Bring all datasets together, re-order columns, add Month and Year, filter out this month's data, remove NAs
-DatabaseSubs <- bind_rows(HistoricSubDBs, AlexanderStPress, EBSCO, GaleDBs, Lynda, OUP, JSTOR, PressReader, ProQuest, StandardsNZ, Naxos, OtherSubs, Discovery, Beamafilm) %>% 
+DatabaseSubs <- bind_rows(HistoricSubDBs, AlexanderStPress, EBSCO, GaleDBs, Lynda, LinkedIn, OUP, JSTOR, PressReader, ProQuest, StandardsNZ, Naxos, OtherSubs, Discovery, Beamafilm) %>% 
   select(publisher, database, reporting_period, metric_name, value) %>% 
   mutate(metric_name = str_to_title(metric_name), Month = format(reporting_period, "%b"), Year = format(reporting_period, "%Y")) %>% 
   filter(reporting_period != as.Date(format(as.Date(format(Sys.Date(), "%Y-%m-01")), "%Y-%m-01")))
