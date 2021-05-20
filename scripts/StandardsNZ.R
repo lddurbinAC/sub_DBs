@@ -1,16 +1,14 @@
 StandardsNZ_read_file <- function(x) {
-  read.csv(x, stringsAsFactors = F, header=T)
+  read_csv(x, col_types = cols(.default = "c")) %>% 
+    distinct() %>% 
+    select(date = 3)
 }
 
 StandardsNZ_Prep <- function(x) {
-  x %>% distinct() %>%
-    select(date = 3) %>% 
-    mutate(reporting_period = dmy(date)) %>% 
-    group_by(reporting_period) %>%
-    mutate(id = n_distinct(reporting_period), value = sum(id), metric_name = "views", database = "Standards Online New Zealand", publisher = "Standards New Zealand") %>% 
-    distinct(reporting_period, metric_name, value = as.double(value), database, publisher) %>% 
-    ungroup() %>% 
-    mutate(reporting_period = as.Date(reporting_period, format="%Y-%m-%d")) 
+  x %>%
+    mutate(reporting_period = dmy(date) %>% floor_date("month")) %>% 
+    count(reporting_period, name = "value") %>%
+    mutate(metric_name = "views", database = "Standards Online New Zealand", publisher = "Standards New Zealand")
 }
 
 # Bind the data frames together, deduplicate the rows, and run through the preparatory function
