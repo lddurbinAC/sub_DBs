@@ -49,4 +49,5 @@ OtherSubs <- OtherSubs %>%
     database == "World Book Kids" ~ "Forward Learning",
     database == "World Book Student" ~ "Forward Learning",
     database == "World Book Timelines" ~ "Forward Learning",
+    database == "Lingogo" ~ "Lingogo"
   ))

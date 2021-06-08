@@ -1,12 +1,12 @@
 StandardsNZ_read_file <- function(x) {
   read_csv(x, col_types = cols(.default = "c")) %>% 
-    distinct() %>% 
-    select(date = 3)
+    select(ip = 1, date = 3) %>% 
+    mutate(reporting_period = dmy(date), .keep = "unused")
 }
 
 StandardsNZ_Prep <- function(x) {
   x %>%
-    mutate(reporting_period = dmy(date) %>% floor_date("month")) %>% 
+    mutate(reporting_period = reporting_period %>% floor_date("month")) %>% 
     count(reporting_period, name = "value") %>%
     mutate(metric_name = "views", database = "Standards Online New Zealand", publisher = "Standards New Zealand")
 }
