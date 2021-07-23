@@ -4,6 +4,7 @@ LinkedInPrep <- function(x) {
     mutate(reporting_period = mdy(start_day_pst_pdt) %>% floor_date("month"), database = "LinkedIn Learning", publisher = "LinkedIn", metric_name = case_when(
       metric_name == "people_logged_in" ~ "sessions",
       metric_name == "courses_viewed" ~ "views",
+      metric_name == "course_views" ~ "views",
     )) %>% 
     filter(!is.na(metric_name)) %>% 
     select(-c(1:2))
