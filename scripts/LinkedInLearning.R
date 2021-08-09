@@ -1,7 +1,7 @@
 LinkedInPrep <- function(x) {
   read_csv(x, col_types = "ccnnnnnnnnnnnnn") %>% 
     clean_and_gather(3:(ncol(.)), "metric_name") %>% 
-    mutate(reporting_period = mdy(start_day_pst_pdt) %>% floor_date("month"), database = "LinkedIn Learning", publisher = "LinkedIn", metric_name = case_when(
+    mutate(reporting_period = mdy(end_day_pst_pdt) %>% floor_date("month"), database = "LinkedIn Learning", publisher = "LinkedIn", metric_name = case_when(
       metric_name == "people_logged_in" ~ "sessions",
       metric_name == "courses_viewed" ~ "views",
       metric_name == "course_views" ~ "views",
