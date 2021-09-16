@@ -11,7 +11,7 @@ PressReader_Prep <- function(sessions, views) {
       value2 = as.numeric(gsub(",", "", value2)),
       month = format(as.Date(Date, "%m/%d/%Y %H:%M:%S"), "%b"),
       year = format(as.Date(Date, "%m/%d/%Y %H:%M:%S"), "%Y"),
-      database = "PressReader",
+      database = "PressReader (Hub)",
       publisher = "PressReader"
       ) %>% 
     distinct() %>% 

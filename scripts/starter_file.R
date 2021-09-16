@@ -2,12 +2,12 @@
 # Setup ----
 
 # Load libraries
-library(assertr)
-library(tidyverse)
-library(readxl)
-library(janitor)
-library(stringr)
-library(lubridate)
+library(assertr) # Assertive Programming for R Analysis Pipelines
+library(tidyverse) # Easily Install and Load the 'Tidyverse'
+library(readxl) # Read Excel Files
+library(janitor) # Simple Tools for Examining and Cleaning Dirty Data
+library(stringr) # Simple, Consistent Wrappers for Common String Operations
+library(lubridate) # Make Dealing with Dates a Little Easier
 
 # Abbreviated month names, used for checking column names
 months <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
@@ -48,8 +48,11 @@ source("scripts/ProQuest.R")
 #JSTOR
 source("scripts/JSTOR.R")
 
-#PressReader
+#PressReader (Hub)
 source("scripts/PressReader.R")
+
+#PressReader (Connections)
+source("scripts/PressReader_new.R")
 
 #StandardsNZ
 source("scripts/StandardsNZ.R")
@@ -76,7 +79,7 @@ database_IDs <- read_csv("data/SubDBs_IDs.csv", col_types = "ccc")
 databases_standardised <- read_csv("data/standardised_database_names.csv", col_types = "ccn") %>% select(-3)
 
 # Bring all datasets together, re-order columns, add Month and Year, filter out this month's data, remove NAs
-DatabaseSubs <- bind_rows(HistoricSubDBs, AlexanderStPress, EBSCO, GaleDBs, Lynda, LinkedIn, OUP, JSTOR, PressReader, ProQuest, StandardsNZ, Naxos, OtherSubs, Discovery, Beamafilm) %>% 
+DatabaseSubs <- bind_rows(HistoricSubDBs, AlexanderStPress, EBSCO, GaleDBs, Lynda, LinkedIn, OUP, JSTOR, PressReader, PressReader_new, ProQuest, StandardsNZ, Naxos, OtherSubs, Discovery, Beamafilm) %>% 
   select(publisher, database, reporting_period, metric_name, value) %>% 
   mutate(metric_name = str_to_title(metric_name), Month = format(reporting_period, "%b"), Year = format(reporting_period, "%Y")) %>% 
   filter(reporting_period != as.Date(format(as.Date(format(Sys.Date(), "%Y-%m-01")), "%Y-%m-01")))
@@ -129,3 +132,4 @@ SubDBs_performance <- DatabaseSubs %>%
 
 
 # *****************************************************************************
+

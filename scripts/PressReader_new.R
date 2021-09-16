@@ -12,4 +12,8 @@ PressReader_new <- lapply(files, PressReader_prep) %>%
   group_by(reporting_period = floor_date(date, "month")) %>% 
   summarise(article_opens = sum(article_opens), sessions = sum(sessions), .groups = "drop") %>% 
   pivot_longer(c(article_opens, sessions), names_to = "metric_name") %>% 
-  mutate(database = "PressReader", publisher = "PressReader")
+  mutate(database = "PressReader (Connections)", publisher = "PressReader", metric_name = case_when(
+    metric_name == "sessions" ~ "Sessions",
+    metric_name == "article_opens" ~ "Views"
+  )) %>% 
+  filter(reporting_period > as.Date("2021-06-01"))
