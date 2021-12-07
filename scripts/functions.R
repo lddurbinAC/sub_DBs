@@ -15,7 +15,7 @@ clean_and_gather <- function(df, values, keyName) {
 # Verify and prepare data downloaded from the Digitales dashboard
 digitales_dashboard <- function(x) {
   # Take the raw data and transform it into the standardised output
-  df <- read_excel(x, col_types = "ccccnc")
+  df <- x %>% read_excel()
   
   df %>% mutate(reporting_period = as.Date(paste("01", Month, Year, sep="/"), "%d/%B/%Y"), metric_name = "Views", publisher = "Digitales") %>% 
     select(everything(), -c(1, 3:4, 6), value = Click, database = Resource)
