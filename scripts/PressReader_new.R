@@ -1,11 +1,13 @@
 # Read CSV, clean column names, select required fields
 PressReader_prep <- function(csv_file) {
-  read_csv(csv_file, col_type = cols(), skip = 7) %>% 
+  skip_rows <- if_else(str_length(csv_file) > 100, 9, 7) # files from May 2022 are formatted differently
+  
+  read_csv(csv_file, col_type = cols(), skip = skip_rows) %>% 
     clean_names() %>% 
     select(date, article_opens, sessions)
 }
 
-files <- list.files("data/raw/PressReader_new", pattern = "*.csv$", full.names = TRUE)
+files <- fs::dir_ls("data/raw/PressReader_new")
 
 PressReader_new <- lapply(files, PressReader_prep) %>% 
   bind_rows() %>% 
