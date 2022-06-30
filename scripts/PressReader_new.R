@@ -7,9 +7,9 @@ PressReader_prep <- function(csv_file) {
     select(date, article_opens, sessions)
 }
 
-# files <- fs::dir_ls("data/raw/PressReader_new")
+files <- fs::dir_ls("data/raw/PressReader_new")
 
-PressReader_new <- lapply(fs::dir_ls("data/raw/PressReader_new"), PressReader_prep) %>% 
+PressReader_new <- lapply(files, PressReader_prep) %>% 
   bind_rows() %>% 
   group_by(reporting_period = floor_date(date, "month")) %>% 
   summarise(article_opens = sum(article_opens), sessions = sum(sessions), .groups = "drop") %>% 
