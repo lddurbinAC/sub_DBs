@@ -127,9 +127,7 @@ SubDBs_performance <- DatabaseSubs %>%
   left_join(database_IDs, by = c("database", "publisher")) %>% 
   mutate(across(where(is.character), replace_na, replace = ""), across(where(is.numeric), replace_na, replace = 0))
 
-# write_csv(SubDBs_performance, "data/processed/SubDBs_performance.csv")
-
-# SubDBs_performance %>% select(Vendor = publisher, Title = database, ID) %>% distinct() %>% write_csv("data/processed/SubDBs_information.csv")
+write_csv(SubDBs_performance, "data/processed/SubDBs_performance.csv")
 
 
 # *****************************************************************************
