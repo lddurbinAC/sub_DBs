@@ -13,8 +13,8 @@ GalePrep <- function(x) {
   df <- read.csv(x, stringsAsFactors = F, header=T) %>%
     check_file_structure
   
-  df %>% select(database = 1, sessions = Sessions, searches = Searches, turnaways = ncol(.)) %>%
-    clean_and_gather(2:4, "metric_name") %>%
+  df %>% select(database = 1, sessions = Sessions, searches = Searches, views = Retrievals, turnaways = ncol(.)) %>%
+    clean_and_gather(2:5, "metric_name") %>%
     filter(database %in% databases$Database) %>%
     mutate(reporting_period = as.Date(paste("01", str_sub(basename(x), 6, 12)[1], sep=""), format="%d%m%Y"), publisher = "Gale Cengage", database = case_when(
       str_detect(database, "Communications and Mass") ~ "Gale OneFile: Communications and Mass Media",
